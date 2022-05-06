@@ -1,3 +1,12 @@
+import inspect
+
+from plantstar_shared import syscon_json
+
+def convert_to_json(the_class):
+    base_dictionary = dict((key, value) for key, value in inspect.getmembers(the_class()) if not key.startswith("__") and not inspect.isfunction(value))
+
+    return syscon_json.dumps(base_dictionary, default=lambda _: "Not Serializeable")
+
 class StatusCodes:
     OK = 200
     MOVED_PERMANENTLY = 301
@@ -9,3 +18,7 @@ class StatusCodes:
     NOT_IMPLEMENTED = 501
     SERVICE_UNAVAILABLE = 503
     GATEWAY_TIMEOUT = 504
+
+    @staticmethod
+    def convert_to_json():
+        return convert_to_json(StatusCodes)
