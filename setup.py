@@ -18,5 +18,10 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    include_package_data=True,
+    install_requires=[
+        "Django>=4.0.4",
+        "psycopg2>=2.9.3",
+        "python-dateutil>=2.8.2",
+        "requests>=2.27.1",
+    ]
 )
