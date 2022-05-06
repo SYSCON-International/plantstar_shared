@@ -22,6 +22,7 @@ setuptools.setup(
         "Django>=4.0.4",
         "psycopg2>=2.9.3",
         "python-dateutil>=2.8.2",
+        "pytz>=2022.1",
         "requests>=2.27.1",
     ]
 )
