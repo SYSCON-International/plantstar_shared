@@ -9,6 +9,7 @@ def convert_to_json(the_class):
     return syscon_json.dumps(base_dictionary, default=lambda _: "Not Serializeable")
 
 
+# TODO: Inherit from SyconType and remove `convert_to_json``
 class StatusCodes:
     OK = 200
     MOVED_PERMANENTLY = 301

@@ -2,6 +2,7 @@ import enum
 import requests
 
 
+# TODO: Inherit from SyconType
 class ApiTypes(enum.Enum):
     # System Watcher
     GET_DATA_COLLECTION_MODULE_SYSTEM_DISK_USAGE = "get_data_collection_module_system_disk_usage"

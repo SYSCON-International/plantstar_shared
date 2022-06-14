@@ -1,0 +1,2 @@
+class SysconProgrammingError(Exception):
+    pass
