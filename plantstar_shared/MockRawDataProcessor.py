@@ -4,6 +4,7 @@ import array
 
 from django.utils.timezone import now
 
+TEN_MILLISECONDS = .010
 
 class MockRawDataProcessor:
     class EmptyInputSignalDictionaries(Exception):
@@ -87,7 +88,7 @@ class MockRawDataProcessor:
                 )
 
     def get_input_signal_dictionaries(self):
-        time.sleep(.003)
+        time.sleep(TEN_MILLISECONDS)
 
         the_now = now()
 
@@ -99,6 +100,7 @@ class MockRawDataProcessor:
                 self.current_analog_value = self.analog_value_max
                 self.current_analog_step_direction = -1
 
+
         return_dictionary = {
             1: {
                 "digitals": {state_index + 1: int(self.state_on_or_off_value) for state_index in range(16)},
@@ -109,6 +111,7 @@ class MockRawDataProcessor:
         }
 
         self.step_current_analog_value()
+
         return return_dictionary
 
     def get_driver_version_string(self):
