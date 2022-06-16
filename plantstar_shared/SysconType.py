@@ -1,4 +1,6 @@
 import enum
+from functools import cache
+
 from plantstar_shared import syscon_json
 from plantstar_shared.errors import SysconProgrammingError
 
@@ -24,10 +26,12 @@ class SysconType(enum.Enum):
         return the_type
 
     @classmethod
+    @cache
     def get_options(the_class):
         return [item.value for item in the_class]
 
     @classmethod
+    @cache
     def convert_to_json(the_class):
         base_dictionary = {item.name: item.value for item in the_class}
         return syscon_json.dumps(base_dictionary, default=lambda _: "Not Serializeable")
