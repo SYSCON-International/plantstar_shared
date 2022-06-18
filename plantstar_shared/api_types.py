@@ -1,20 +1,39 @@
 import enum
 import requests
 
+from django.core.signing import Signer
+from django.utils.timezone import now
+
+from plantstar_shared.is_valid_signed_string import is_valid_signed_string
+
 
 # TODO: Inherit from SyconType
 class ApiTypes(enum.Enum):
     @staticmethod
-    def send_get_request(api_type_name, ip_address, timeout=None, data=None, logger=None):
-        return ApiTypes.send_get_post_request_base(api_type_name=api_type_name, ip_address=ip_address, request_function=requests.get, timeout=timeout, data=data, logger=logger)
+    def send_get_request(api_type_name, ip_address, timeout=None, data=None, signer_key=None, logger=None):
+        return ApiTypes.send_get_post_request_base(
+            api_type_name=api_type_name, ip_address=ip_address, request_function=requests.get, timeout=timeout, data=data, signer_key=signer_key, logger=logger
+        )
 
     @staticmethod
-    def send_post_request(api_type_name, ip_address, timeout=None, data=None, logger=None):
-        return ApiTypes.send_get_post_request_base(api_type_name=api_type_name, ip_address=ip_address, request_function=requests.post, timeout=timeout, data=data, logger=logger)
+    def send_post_request(api_type_name, ip_address, timeout=None, data=None, signer_key=None, logger=None):
+        return ApiTypes.send_get_post_request_base(
+            api_type_name=api_type_name, ip_address=ip_address, request_function=requests.post, timeout=timeout, data=data, signer_key=signer_key, logger=logger
+        )
 
     @staticmethod
-    def send_get_post_request_base(*, api_type_name, ip_address, request_function, timeout=None, data=None, logger=None):
+    def send_get_post_request_base(*, api_type_name, ip_address, request_function, timeout=None, data=None, signer_key=None, logger=None):
         request_url = f"http://{ip_address}/{api_type_name}/"
+
+        if signer_key:
+            signer_timestamp = str(now().timestamp())
+            signed_string = Signer(key=signer_key, salt=signer_timestamp).sign(api_type_name)
+
+            if data is None:
+                data = {}
+
+            data["signed_string"] = signed_string
+            data["signer_timestamp"] = signer_timestamp
 
         try:
             request = request_function(request_url, timeout=timeout, data=data)
