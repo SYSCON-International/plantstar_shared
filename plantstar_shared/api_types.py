@@ -9,6 +9,7 @@ from plantstar_shared.is_valid_signed_string import is_valid_signed_string
 
 
 # TODO: Inherit from SyconType
+# TODO: All staticmethods should probably be changed to use `*`, to force the caller to use named arguments
 class ApiTypes(enum.Enum):
     @staticmethod
     def send_get_request(api_type_name, ip_address, timeout=None, data=None, signer_key=None, logger=None):
