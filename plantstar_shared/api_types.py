@@ -54,12 +54,12 @@ class ApiTypes(enum.Enum):
         return request.status_code, data_dictionary
 
     @staticmethod
-    def is_valid_request(*, api_type_name, key, data):
+    def is_valid_request(*, api_type_name, signer_key, data):
         signed_string = data.get("signed_string", None)
         signer_timestamp = data.get("signer_timestamp", None)
 
         if signed_string and signer_timestamp:
-            return is_valid_signed_string(key=key, signed_string=signed_string, unsigned_string=api_type_name, salt=signer_timestamp)
+            return is_valid_signed_string(signer_key=signer_key, signed_string=signed_string, unsigned_string=api_type_name, salt=signer_timestamp)
         elif signed_string is None and signer_timestamp is None:
             return True
 
