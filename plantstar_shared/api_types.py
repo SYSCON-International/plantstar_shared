@@ -1,5 +1,4 @@
 import enum
-from attr import has
 import requests
 
 from django.core.signing import Signer
