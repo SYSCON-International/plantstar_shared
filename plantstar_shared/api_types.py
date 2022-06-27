@@ -1,30 +1,41 @@
-import enum
 import requests
 
 from django.core.signing import Signer
 from django.utils.timezone import now
 
+from plantstar_shared.SysconType import SysconType
+from plantstar_shared.errors import InvalidApiRequest, SysconProgrammingError
 from plantstar_shared.is_valid_signed_string import is_valid_signed_string
 
 
-# TODO: Inherit from SyconType
-# TODO: All staticmethods should probably be changed to use `*`, to force the caller to use named arguments
-class ApiTypes(enum.Enum):
+class ApiTypes(SysconType):
     @staticmethod
-    def send_get_request(api_type_name, ip_address, timeout=None, data=None, signer_key=None, logger=None):
+    def send_get_request(api_type_name, ip_address, timeout=0.5, data=None, signer_key=None, logger=None, use_https=False):
         return ApiTypes.send_get_post_request_base(
-            api_type_name=api_type_name, ip_address=ip_address, request_function=requests.get, timeout=timeout, data=data, signer_key=signer_key, logger=logger
+            api_type_name=api_type_name, ip_address=ip_address, request_function=requests.get, timeout=timeout, data=data, signer_key=signer_key, logger=logger, use_https=use_https
         )
 
     @staticmethod
-    def send_post_request(api_type_name, ip_address, timeout=None, data=None, signer_key=None, logger=None):
+    def send_post_request(api_type_name, ip_address, timeout=0.5, data=None, signer_key=None, logger=None, use_https=False):
         return ApiTypes.send_get_post_request_base(
-            api_type_name=api_type_name, ip_address=ip_address, request_function=requests.post, timeout=timeout, data=data, signer_key=signer_key, logger=logger
+            api_type_name=api_type_name, ip_address=ip_address, request_function=requests.post, timeout=timeout, data=data, signer_key=signer_key, logger=logger, use_https=use_https
         )
 
     @staticmethod
-    def send_get_post_request_base(*, api_type_name, ip_address, request_function, timeout=None, data=None, signer_key=None, logger=None):
-        request_url = f"http://{ip_address}/{api_type_name}/"
+    def send_get_post_request_base(*, api_type_name, ip_address, request_function, timeout=0.5, data=None, signer_key=None, logger=None, use_https=False):
+        should_sign = ApiTypes.get_type_tuple_by_type_name(api_type_name)[2]
+
+        if should_sign and not signer_key:
+            raise SysconProgrammingError("ApiType requires a signer_key, but one was not provided")
+        elif not should_sign and signer_key:
+            raise SysconProgrammingError("ApiType should not have a signer_key, but one was provided")
+
+        if use_https:
+            http_prefix = "https"
+        else:
+            http_prefix = "http"
+
+        request_url = f"{http_prefix}://{ip_address}/{api_type_name}/"
 
         if signer_key:
             signer_timestamp = str(now().timestamp())
@@ -54,28 +65,32 @@ class ApiTypes(enum.Enum):
         return request.status_code, data_dictionary
 
     @staticmethod
-    def is_valid_request(*, api_type_name, signer_key, data):
+    def validate_request(*, api_type_name, signer_key, data):
+        should_sign = ApiTypes.get_type_tuple_by_type_name(api_type_name)[2]
+
         signed_string = data.get("signed_string", None)
         signer_timestamp = data.get("signer_timestamp", None)
 
-        if signed_string and signer_timestamp:
-            return is_valid_signed_string(signer_key=signer_key, signed_string=signed_string, unsigned_string=api_type_name, salt=signer_timestamp)
-        elif signed_string is None and signer_timestamp is None:
-            return True
+        if should_sign and (not signed_string or not signer_timestamp):
+            raise InvalidApiRequest(f"ApiType requires a signed_string and signer_timestamp, but {signed_string} and {signer_timestamp} were provided")
+        elif not should_sign and (signed_string or signer_timestamp):
+            raise InvalidApiRequest(f"ApiType should not have a signed_string or signer_timestamp, but {signed_string} and {signer_timestamp} were provided")
 
-        return False
+        if signed_string and signer_timestamp:
+            if not is_valid_signed_string(signer_key=signer_key, signed_string=signed_string, unsigned_string=api_type_name, salt=signer_timestamp):
+                raise InvalidApiRequest(f"Invalid signing: signer_key: {signer_key}, signed_string: {signed_string}, unsigned_string: {api_type_name}, salt: {signer_timestamp}")
 
 
 class DataCollectionModuleApiTypes(ApiTypes):
-    GET_DATA_COLLECTION_MODULE_SYSTEM_DISK_USAGE = "get_data_collection_module_system_disk_usage"
-    GET_DATA_COLLECTION_MODULE_SYSTEM_INFORMATION = "get_data_collection_module_system_information"
-    GET_SYSTEM_ERROR_DICTIONARY_LIST = "get_system_error_dictionary_list"
+    GET_DATA_COLLECTION_MODULE_SYSTEM_DISK_USAGE = ("get_data_collection_module_system_disk_usage", "get_data_collection_module_system_disk_usage", True)
+    GET_DATA_COLLECTION_MODULE_SYSTEM_INFORMATION = ("get_data_collection_module_system_information", "get_data_collection_module_system_information", True)
+    GET_SYSTEM_ERROR_DICTIONARY_LIST = ("get_system_error_dictionary_list", "get_system_error_dictionary_list", True)
 
-    GET_DATA_COLLECTION_MODULE_PROCESS_STATUSES = "get_data_collection_module_process_statuses"
-    COLDBOOT_DATA_COLLECTION_MODULE = "coldboot_data_collection_module"
-    REBOOT_DATA_COLLECTION_MODULE = "reboot_data_collection_module"
+    GET_DATA_COLLECTION_MODULE_PROCESS_STATUSES = ("get_data_collection_module_process_statuses", "get_data_collection_module_process_statuses", True)
+    COLDBOOT_DATA_COLLECTION_MODULE = ("coldboot_data_collection_module", "coldboot_data_collection_module", True)
+    REBOOT_DATA_COLLECTION_MODULE = ("reboot_data_collection_module", "reboot_data_collection_module", True)
 
 
 class ApuApiTypes(ApiTypes):
-    SET_IS_INITIALIZING_STATUS = "set_is_initializing_status"
-    SET_IS_COLDBOOTING_STATUS = "set_is_coldbooting_status"
+    SET_IS_INITIALIZING_STATUS = ("set_is_initializing_status", "set_is_initializing_status", True)
+    SET_IS_COLDBOOTING_STATUS = ("set_is_coldbooting_status", "set_is_coldbooting_status", True)
