@@ -14,16 +14,15 @@ class SysconType(enum.Enum):
         if not hasattr(the_class, "_type_cache"):
             the_class._type_cache = {the_type.value[0]: the_type.value for the_type in the_class}
 
-        # Using `the_type` to prevent shadowing on Python built-in `type()`
-        the_type = the_class._type_cache.get(type_name, None)
+        type_tuple = the_class._type_cache.get(type_name, None)
 
-        if the_type is None:
+        if type_tuple is None:
             class_name_singular = the_class.__name__.removesuffix("s")
             option_names = [f"\"{option[0]}\"" for option in the_class.get_options()]
             option_name_string = ", ".join(option_names)
             raise SysconProgrammingError(f"Invalid {class_name_singular}: \"{type_name}\".  Options are: [{option_name_string}]")
 
-        return the_type
+        return type_tuple
 
     @classmethod
     @cache
