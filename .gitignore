@@ -1,2 +1,8 @@
+__pycache__
 .DS_Store
 .idea
+.pytest_cache
+.vscode
+dist
+plantstar_shared.egg-info
+virtual_environment
