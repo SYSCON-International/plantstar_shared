@@ -1,4 +1,5 @@
 from plantstar_shared.RawDataProcessorInterfaceActions import RawDataProcessorInterfaceActions
+from plantstar_shared.errors import SysconProgrammingError
 
 
 def obtain_raw_data_processor_function_for_action_name(rawdataprocessor, action_name):
@@ -15,4 +16,4 @@ def obtain_raw_data_processor_function_for_action_name(rawdataprocessor, action_
     elif action_name == RawDataProcessorInterfaceActions.UPLOAD_NEW_DRIVER_SETTINGS:
         return rawdataprocessor.upload_new_driver_settings
     else:
-        raise Exception
+        raise SysconProgrammingError
