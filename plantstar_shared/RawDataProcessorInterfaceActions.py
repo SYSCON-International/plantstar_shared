@@ -1,6 +1,4 @@
-import enum
-
-class RawDataProcessorInterfaceActions(enum.Enum):
+class RawDataProcessorInterfaceActions:
     GET_DRIVER_VERSION_STRING = "get_driver_version_string"
     GET_INPUT_SIGNAL_DICTIONARIES = "get_input_signal_dictionaries"
     GET_MOCK_RAW_DATA_PROCESSOR_STATUS = "get_mock_raw_data_processor_status"
