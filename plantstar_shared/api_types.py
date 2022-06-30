@@ -11,19 +11,19 @@ from plantstar_shared.is_valid_signed_string import is_valid_signed_string
 class ApiTypes(SysconType):
     @staticmethod
     def send_get_request(api_type_name, ip_address, timeout=0.5, data=None, signer_key=None, logger=None, use_https=False):
-        return ApiTypes.send_get_post_request_base(
+        return ApiTypes._send_get_post_request_base(
             api_type_name=api_type_name, ip_address=ip_address, request_function=requests.get, timeout=timeout, data=data, signer_key=signer_key, logger=logger, use_https=use_https
         )
 
     @staticmethod
     def send_post_request(api_type_name, ip_address, timeout=0.5, data=None, signer_key=None, logger=None, use_https=False):
-        return ApiTypes.send_get_post_request_base(
+        return ApiTypes._send_get_post_request_base(
             api_type_name=api_type_name, ip_address=ip_address, request_function=requests.post, timeout=timeout, data=data, signer_key=signer_key, logger=logger, use_https=use_https
         )
 
-    @staticmethod
-    def send_get_post_request_base(*, api_type_name, ip_address, request_function, timeout=0.5, data=None, signer_key=None, logger=None, use_https=False):
-        should_sign = ApiTypes.get_type_tuple_by_type_name(api_type_name)[2]
+    @classmethod
+    def _send_get_post_request_base(the_class, *, api_type_name, ip_address, request_function, timeout=0.5, data=None, signer_key=None, logger=None, use_https=False):
+        should_sign = the_class.get_type_tuple_by_type_name(api_type_name)[2]
 
         if should_sign and not signer_key:
             raise SysconProgrammingError("ApiType requires a signer_key, but one was not provided")
@@ -64,9 +64,9 @@ class ApiTypes(SysconType):
 
         return request.status_code, data_dictionary
 
-    @staticmethod
-    def validate_request(*, api_type_name, signer_key, data):
-        should_sign = ApiTypes.get_type_tuple_by_type_name(api_type_name)[2]
+    @classmethod
+    def validate_request(the_class, *, api_type_name, signer_key, data):
+        should_sign = the_class.get_type_tuple_by_type_name(api_type_name)[2]
 
         signed_string = data.get("signed_string", None)
         signer_timestamp = data.get("signer_timestamp", None)
