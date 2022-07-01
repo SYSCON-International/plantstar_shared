@@ -24,9 +24,9 @@ def _send_get_post_request_base(*, api_type, ip_address, request_function, timeo
     should_sign = api_type.value[2]
 
     if should_sign and not signer_key:
-        raise SysconProgrammingError("ApiType requires a signer_key, but one was not provided")
+        raise SysconProgrammingError("This API call requires a signer_key, but one was not provided")
     elif not should_sign and signer_key:
-        raise SysconProgrammingError("ApiType should not have a signer_key, but one was provided")
+        raise SysconProgrammingError("This API should not have a signer_key, but one was provided")
 
     if use_https:
         http_prefix = "https"
@@ -72,9 +72,9 @@ def validate_request(*, api_type, signer_key, data):
     signer_timestamp = data.get("signer_timestamp", None)
 
     if should_sign and (not signed_string or not signer_timestamp):
-        raise InvalidApiRequest(f"ApiType requires a signed_string and signer_timestamp, but {signed_string} and {signer_timestamp} were provided")
+        raise InvalidApiRequest(f"This API call requires a signed_string and signer_timestamp, but {signed_string} and {signer_timestamp} were provided")
     elif not should_sign and (signed_string or signer_timestamp):
-        raise InvalidApiRequest(f"ApiType should not have a signed_string or signer_timestamp, but {signed_string} and {signer_timestamp} were provided")
+        raise InvalidApiRequest(f"This API call should not have a signed_string or signer_timestamp, but {signed_string} and {signer_timestamp} were provided")
 
     if signed_string and signer_timestamp:
         api_type_name = api_type.value[0]
