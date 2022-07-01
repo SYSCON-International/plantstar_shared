@@ -4,7 +4,7 @@ import array
 
 from django.utils.timezone import now
 
-TEN_MILLISECONDS = .010
+TEN_MILLISECONDS = .01
 
 
 class MockRawDataProcessor:
