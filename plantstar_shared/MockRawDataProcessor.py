@@ -6,6 +6,7 @@ from django.utils.timezone import now
 
 TEN_MILLISECONDS = .010
 
+
 class MockRawDataProcessor:
     class EmptyInputSignalDictionaries(Exception):
         pass
@@ -14,7 +15,7 @@ class MockRawDataProcessor:
         self, cycle_time_in_milliseconds=30000, number_of_digital_inputs=16, number_of_digital_outputs=8, number_of_analog_inputs=32, debounce_raw_buffer_size=255,
         analog_value_min=50, analog_value_max=2, analog_value_step=0.5
     ):
-        self.next_value_swap_in_seconds_timedelta = datetime.timedelta(milliseconds=cycle_time_in_milliseconds/2)
+        self.next_value_swap_in_seconds_timedelta = datetime.timedelta(milliseconds=cycle_time_in_milliseconds / 2)
         self.next_value_swap_datetime = now() + self.next_value_swap_in_seconds_timedelta
 
         self.number_of_digital_inputs = number_of_digital_inputs
@@ -25,10 +26,10 @@ class MockRawDataProcessor:
         self.analog_value_max = analog_value_max
         self.analog_value_step = analog_value_step
 
-        self.last_digital_input_debounce_array = array.array("B", [0 for state_index in range(self.number_of_digital_inputs)])
-        self.last_digital_output_array = array.array("B", [0 for state_index in range(self.number_of_digital_outputs)])
-        self.last_analog_filter_array = array.array("B", [0 for state_index in range(self.number_of_analog_inputs)])
-        self.last_analog_gain_array = array.array("B", [0 for state_index in range(self.number_of_analog_inputs)])
+        self.last_digital_input_debounce_array = array.array("B", [0 for _ in range(self.number_of_digital_inputs)])
+        self.last_digital_output_array = array.array("B", [0 for _ in range(self.number_of_digital_outputs)])
+        self.last_analog_filter_array = array.array("B", [0 for _ in range(self.number_of_analog_inputs)])
+        self.last_analog_gain_array = array.array("B", [0 for _ in range(self.number_of_analog_inputs)])
 
         self.state_on_or_off_value = False
         self.current_analog_value = analog_value_max
@@ -99,7 +100,6 @@ class MockRawDataProcessor:
             if self.state_on_or_off_value:
                 self.current_analog_value = self.analog_value_max
                 self.current_analog_step_direction = -1
-
 
         return_dictionary = {
             1: {
