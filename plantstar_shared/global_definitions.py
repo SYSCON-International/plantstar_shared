@@ -1,6 +1,13 @@
+import datetime
 import inspect
 
+import pytz
+
 from plantstar_shared import syscon_json
+
+
+def utc_now():
+    return datetime.datetime.now(pytz.utc)
 
 
 def convert_to_json(the_class):
