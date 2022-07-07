@@ -1,8 +1,10 @@
 __pycache__
 .DS_Store
+.github
 .idea
 .pytest_cache
 .vscode
+build
 dist
 plantstar_shared.egg-info
 virtual_environment
