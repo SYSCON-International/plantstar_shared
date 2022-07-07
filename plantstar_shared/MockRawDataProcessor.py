@@ -2,7 +2,7 @@ import datetime
 import time
 import array
 
-from django.utils.timezone import now
+from plantstar_shared.global_definitions import utc_now
 
 TEN_MILLISECONDS = .01
 
@@ -16,7 +16,7 @@ class MockRawDataProcessor:
         analog_value_min=50, analog_value_max=2, analog_value_step=0.5
     ):
         self.next_value_swap_in_seconds_timedelta = datetime.timedelta(milliseconds=cycle_time_in_milliseconds / 2)
-        self.next_value_swap_datetime = now() + self.next_value_swap_in_seconds_timedelta
+        self.next_value_swap_datetime = utc_now() + self.next_value_swap_in_seconds_timedelta
 
         self.number_of_digital_inputs = number_of_digital_inputs
         self.number_of_digital_outputs = number_of_digital_outputs
@@ -91,7 +91,7 @@ class MockRawDataProcessor:
     def get_input_signal_dictionaries(self):
         time.sleep(TEN_MILLISECONDS)
 
-        the_now = now()
+        the_now = utc_now()
 
         if self.next_value_swap_datetime <= the_now:
             self.state_on_or_off_value = not self.state_on_or_off_value
