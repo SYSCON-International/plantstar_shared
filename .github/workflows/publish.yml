@@ -6,7 +6,11 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Upload Python Package
+# TODO
+# Remove things that aren't being used
+# Add caching to the dependencies downloaded from PyPi, to speed up the workflow
+
+name: Publish plantstar_shared package
 
 on:
   push:
