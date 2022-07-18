@@ -8,13 +8,21 @@ from plantstar_shared.convert_object_to_bytes import convert_object_to_bytes
 SIZE_OF_UNSIGNED_INT_STRUCT = 4
 
 
+class SocketConnectionError(Exception):
+    pass
+
+
 def read_size_value_from_socket(*, remote_socket):
     size_struct = remote_socket.recv(SIZE_OF_UNSIGNED_INT_STRUCT)
-
+    
     if not size_struct:
-        return None
+        raise SocketConnectionError
 
-    message_length = struct.unpack('>I', size_struct)[0]
+    try:
+        message_length = struct.unpack('>I', size_struct)[0]
+    except struct.error as error:
+        raise SocketConnectionError
+
     return message_length
 
 
@@ -44,7 +52,7 @@ def send_encoded_message_on_socket(*, remote_socket, encoded_message):
     remote_socket.send(encoded_message_with_size)
 
 
-def get_output_dictionary_from_socket(*, remote_socket):
-    output_dictionary_from_interface_as_bytes = get_message_from_socket(remote_socket=remote_socket)
-    output_dictionary_from_interface = convert_bytes_to_object(output_dictionary_from_interface_as_bytes)
-    return output_dictionary_from_interface
+def get_object_from_socket(*, remote_socket):
+    object_from_interface_as_bytes = get_message_from_socket(remote_socket=remote_socket)
+    object_from_interface = convert_bytes_to_object(object_from_interface_as_bytes)
+    return object_from_interface
