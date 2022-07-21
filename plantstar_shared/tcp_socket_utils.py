@@ -7,15 +7,11 @@ from plantstar_shared.convert_object_to_bytes import convert_object_to_bytes
 SIZE_OF_UNSIGNED_INT_STRUCT = 4
 
 
-class SocketConnectionError(Exception):
-    pass
-
-
 def read_size_value_from_socket(*, remote_socket):
     size_struct = remote_socket.recv(SIZE_OF_UNSIGNED_INT_STRUCT)
 
     if not size_struct:
-        raise SocketConnectionError
+        return None
 
     try:
         message_length = struct.unpack('>I', size_struct)[0]

@@ -2,6 +2,11 @@ class InvalidApiRequest(Exception):
     pass
 
 
+class SocketConnectionError(Exception):
+    pass
+
+
+
 class SysconProgrammingError(Exception):
     pass
 
