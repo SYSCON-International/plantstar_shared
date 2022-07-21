@@ -23,6 +23,9 @@ def read_size_value_from_socket(*, remote_socket):
  
 def get_message_from_socket(*, remote_socket):
     message_length = read_size_value_from_socket(remote_socket=remote_socket)
+    
+    if not message_length:
+        return None
 
     data = b''
 
