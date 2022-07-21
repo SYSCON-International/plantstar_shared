@@ -4,7 +4,6 @@ from plantstar_shared.add_size_onto_string_and_return import add_size_onto_strin
 from plantstar_shared.convert_bytes_to_object import convert_bytes_to_object
 from plantstar_shared.convert_object_to_bytes import convert_object_to_bytes
 
-
 SIZE_OF_UNSIGNED_INT_STRUCT = 4
 
 
@@ -14,7 +13,7 @@ class SocketConnectionError(Exception):
 
 def read_size_value_from_socket(*, remote_socket):
     size_struct = remote_socket.recv(SIZE_OF_UNSIGNED_INT_STRUCT)
-    
+
     if not size_struct:
         raise SocketConnectionError
 
@@ -25,11 +24,11 @@ def read_size_value_from_socket(*, remote_socket):
 
     return message_length
 
-
+ 
 def get_message_from_socket(*, remote_socket):
     message_length = read_size_value_from_socket(remote_socket=remote_socket)
 
-    data = bytearray()
+    data = b''
 
     # While loop that will stream in data if the full request is not available yet
     while len(data) < message_length:
@@ -38,13 +37,14 @@ def get_message_from_socket(*, remote_socket):
         if not packet:
             return None
 
-        data.extend(packet)
+        data += packet
+
     return data
 
 
-def send_message_on_socket(*, remote_socket, dumpsable_object, encoding='ASCII'):
-    encoded_message = convert_object_to_bytes(input_object=dumpsable_object, encoding_format=encoding)
-    send_encoded_message_on_socket(remote_socket=remote_socket, encoded_message=encoded_message)
+def send_message_on_socket(*, remote_socket, dumpsable_object):
+    message_encoded_as_bytes = convert_object_to_bytes(dumpsable_object)
+    send_encoded_message_on_socket(remote_socket=remote_socket, encoded_message=message_encoded_as_bytes)
 
 
 def send_encoded_message_on_socket(*, remote_socket, encoded_message):
