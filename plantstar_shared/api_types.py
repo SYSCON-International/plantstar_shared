@@ -94,5 +94,5 @@ class DataCollectionModuleApiTypes(SysconType):
 
 
 class ApuApiTypes(SysconType):
-    SET_IS_INITIALIZING_STATUS = ("set_is_initializing_status", "set_is_initializing_status", True)
-    SET_IS_COLDBOOTING_STATUS = ("set_is_coldbooting_status", "set_is_coldbooting_status", True)
+    SET_IS_INITIALIZING_STATUS = ("data_collection_module_manager/set_is_initializing_status", "data_collection_module_manager/set_is_initializing_status", True)
+    SET_IS_COLDBOOTING_STATUS = ("data_collection_module_manager/set_is_coldbooting_status", "data_collection_module_manager/set_is_coldbooting_status", True)
