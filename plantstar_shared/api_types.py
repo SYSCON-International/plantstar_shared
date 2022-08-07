@@ -1,11 +1,10 @@
 import requests
 
 from django.core.signing import Signer
-from django.utils.timezone import now
-
 from plantstar_shared.SysconType import SysconType
 from plantstar_shared.errors import InvalidApiRequest, SysconProgrammingError
 from plantstar_shared.is_valid_signed_string import is_valid_signed_string
+from plantstar_shared.global_definitions import safe_now
 
 
 def send_get_request(api_type, ip_address, timeout=0.5, data=None, signer_key=None, logger=None, use_https=False):
@@ -38,7 +37,7 @@ def _send_get_post_request_base(*, api_type, ip_address, request_function, timeo
     request_url = f"{http_prefix}://{ip_address}/{api_type_name}/"
 
     if signer_key:
-        signer_timestamp = str(now().timestamp())
+        signer_timestamp = str(safe_now().timestamp())
         signed_string = Signer(key=signer_key, salt=signer_timestamp).sign(api_type_name)
 
         if data is None:

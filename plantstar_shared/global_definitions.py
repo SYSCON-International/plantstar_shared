@@ -2,12 +2,21 @@ import datetime
 import inspect
 
 import pytz
+from django.utils.timezone import now
 
 from plantstar_shared import syscon_json
 
 
 def utc_now():
     return datetime.datetime.now(pytz.utc)
+
+
+def safe_now():
+    """If Django's `now()` throws an exception, we default to `utc_now()`.  Calling Django's `now()` will throw an exception when calling it in non-Django environments."""
+    try:
+        return now()
+    except Exception:
+        return utc_now()
 
 
 def convert_to_json(the_class):
