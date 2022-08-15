@@ -7,19 +7,21 @@ from plantstar_shared.is_valid_signed_string import is_valid_signed_string
 from plantstar_shared.global_definitions import safe_now
 
 
-def send_get_request(api_type, ip_address, timeout=0.5, data=None, signer_key=None, logger=None, use_https=False):
+def send_get_request(api_type, ip_address, connect_timeout=0.5, read_timeout=10, data=None, signer_key=None, logger=None, use_https=False):
     return _send_get_post_request_base(
-        api_type=api_type, ip_address=ip_address, request_function=requests.get, timeout=timeout, data=data, signer_key=signer_key, logger=logger, use_https=use_https
+        api_type=api_type, ip_address=ip_address, request_function=requests.get, connect_timeout=connect_timeout, read_timeout=read_timeout, data=data, signer_key=signer_key,
+        logger=logger,  use_https=use_https
     )
 
 
-def send_post_request(api_type, ip_address, timeout=0.5, data=None, signer_key=None, logger=None, use_https=False):
+def send_post_request(api_type, ip_address, connect_timeout=0.5, read_timeout=10, data=None, signer_key=None, logger=None, use_https=False):
     return _send_get_post_request_base(
-        api_type=api_type, ip_address=ip_address, request_function=requests.post, timeout=timeout, data=data, signer_key=signer_key, logger=logger, use_https=use_https
+        api_type=api_type, ip_address=ip_address, request_function=requests.post, connect_timeout=connect_timeout, read_timeout=read_timeout, data=data, signer_key=signer_key,
+        logger=logger, use_https=use_https
     )
 
 
-def _send_get_post_request_base(*, api_type, ip_address, request_function, timeout=0.5, data=None, signer_key=None, logger=None, use_https=False):
+def _send_get_post_request_base(*, api_type, ip_address, request_function, connect_timeout=0.5, read_timeout=10, data=None, signer_key=None, logger=None, use_https=False):
     should_sign = api_type.value[2]
 
     if should_sign and not signer_key:
@@ -47,7 +49,7 @@ def _send_get_post_request_base(*, api_type, ip_address, request_function, timeo
         data["signer_timestamp"] = signer_timestamp
 
     try:
-        request = request_function(request_url, timeout=timeout, data=data)
+        request = request_function(request_url, timeout=(connect_timeout, read_timeout), data=data)
     except Exception as error:
         error_message = f"The API request \"{api_type_name}\" sent to \"{request_url}\" failed with error: {error}"
 
