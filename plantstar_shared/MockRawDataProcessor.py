@@ -100,9 +100,9 @@ class MockRawDataProcessor:
 
         return_dictionary = {
             1: {
-                "digitals": {str(state_index + 1): int(self.state_on_or_off_value) for state_index in range(16)},
-                "analogs": {str(state_index + 1): self.current_analog_value for state_index in range(24)},
-                "cold_end": {str(state_index + 1): self.cold_end_value for state_index in range(24)},
+                "digitals": {state_index + 1: int(self.state_on_or_off_value) for state_index in range(16)},
+                "analogs": {state_index + 1: self.current_analog_value for state_index in range(24)},
+                "cold_end": {state_index + 1: self.cold_end_value for state_index in range(24)},
                 "event_unix_timestamp": the_now.timestamp()
             }
         }
