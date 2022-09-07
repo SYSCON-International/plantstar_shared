@@ -97,3 +97,7 @@ class DataCollectionModuleApiTypes(SysconType):
 class ApuApiTypes(SysconType):
     SET_IS_INITIALIZING_STATUS = ("data_collection_module_manager/set_is_initializing_status", "data_collection_module_manager/set_is_initializing_status", True)
     SET_IS_COLDBOOTING_STATUS = ("data_collection_module_manager/set_is_coldbooting_status", "data_collection_module_manager/set_is_coldbooting_status", True)
+
+
+class CosmosApiTypes(SysconType):
+    SEND_DATA_DICTIONARY = ("send_data_dictionary", "send_data_dictionary", True)
