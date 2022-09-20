@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as file_handle:
 
 setuptools.setup(
     name="plantstar-shared",
-    # MAJOR_VERSION.MINOR_VERSION.MAJOR_PATCH_VERSION.MINOR_PATCH_VERSION.SUBVERSION
+    # MAJOR_VERSION.MINOR_VERSION.MAJOR_PATCH_VERSION.MINOR_PATCH_VERSION.SUBVERSION_2
     version="2.0.1.0.1",
     author="SYSCON International",
     author_email="dev@syscon-intl.com",
