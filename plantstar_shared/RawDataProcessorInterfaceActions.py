@@ -5,5 +5,6 @@ class RawDataProcessorInterfaceActions:
     GET_VERSION_STRING = "get_version_string"
     SEND_IS_ALIVE_MESSAGE = "send_is_alive_message"
     UPDATE_ANALOG_INPUTS = "update_analog_inputs"
+    UPDATE_DATETIME = "update_datetime"
     UPDATE_DIGITAL_INPUT_DEBOUNCE = "update_digital_input_debounce"
     UPLOAD_NEW_DRIVER_SETTINGS = "upload_new_driver_settings"
