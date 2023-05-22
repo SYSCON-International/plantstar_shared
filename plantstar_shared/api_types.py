@@ -6,6 +6,7 @@ from plantstar_shared.errors import InvalidApiRequest, SysconProgrammingError
 from plantstar_shared.is_valid_signed_string import is_valid_signed_string
 from plantstar_shared.global_definitions import safe_now
 
+print("test")
 
 def send_get_request(api_type, ip_address, connect_timeout=2, read_timeout=10, data=None, signer_key=None, logger=None, use_https=False):
     return _send_get_post_request_base(
