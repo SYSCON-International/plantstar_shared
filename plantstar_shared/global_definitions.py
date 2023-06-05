@@ -28,6 +28,7 @@ def convert_to_json(the_class):
 # TODO: Inherit from SyconType and remove `convert_to_json``
 class StatusCodes:
     OK = 200
+    NO_CONTENT = 204
     MOVED_PERMANENTLY = 301
     FOUND = 302
     BAD_REQUEST = 400
