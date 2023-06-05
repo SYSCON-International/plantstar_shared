@@ -1,8 +1,24 @@
 # Make sure to update the setup.py to match any changes made to this file
 
+# Django Web Framework
 Django>=4.0.4
+
+# MessagePack: Binary serialization format for exchanging data
+# Usage: Used to convert objects into bytes
 msgpack>=1.0.4
+
+# Psycopg2: PostgresSQL database adapter for Python, provides database interfaces
+# Usage: Uses DateTimeTZRange function for processing DateTime objects/values
 psycopg2>=2.9.3
+
+# Python Dateutil: Extends standard Python datetime module to provide more comprehensive datetime processing
+# Usage: Used for properly setting timezone to UTC
 python-dateutil>=2.8.2
+
+# Pytz: Library providing accurate timezone calculations
+# Usage: Used to get timezone information
 pytz>=2022.1
+
+# Requests: Library for sending HTTP requests using Python
+# Usage: Used for sending HTTP requests
 requests>=2.27.1
