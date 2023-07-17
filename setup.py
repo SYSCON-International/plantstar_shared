@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as file_handle:
 setuptools.setup(
     name="plantstar-shared",
     # MAJOR_MILESTONE_VERSION.MINOR_MILESTONE_VERSION.MAJOR_VERSION.MINOR_VERSION.HOTFIX_VERSION.SUBVERSION
-    version="2.0.3.0.2",
+    version="2.0.2.5.0.1",
     author="SYSCON International",
     author_email="dev@syscon-intl.com",
     description="Shared code used in plantstar_apu and plantstar_dcm",
