@@ -3,6 +3,7 @@ import struct
 from plantstar_shared.add_size_onto_string_and_return import add_size_onto_string_and_return
 from plantstar_shared.convert_bytes_to_object import convert_bytes_to_object
 from plantstar_shared.convert_object_to_bytes import convert_object_to_bytes
+from plantstar_shared.errors import SocketConnectionError
 
 SIZE_OF_UNSIGNED_INT_STRUCT = 4
 
