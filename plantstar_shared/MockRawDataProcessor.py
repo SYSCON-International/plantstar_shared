@@ -9,7 +9,7 @@ TEN_MILLISECONDS = .01
 
 class MockRawDataProcessor:
     def __init__(
-        self, cycle_time_in_milliseconds=30000, number_of_digital_inputs=16, number_of_digital_outputs=8, number_of_analog_inputs=32, debounce_raw_buffer_size=255,
+        self, cycle_time_in_milliseconds=30000, number_of_digital_inputs=200, number_of_digital_outputs=200, number_of_analog_inputs=200, debounce_raw_buffer_size=255,
         analog_value_min=50, analog_value_max=2, analog_value_step=0.5
     ):
         self.next_value_swap_in_seconds_timedelta = datetime.timedelta(milliseconds=cycle_time_in_milliseconds / 2)
