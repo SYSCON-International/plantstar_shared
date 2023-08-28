@@ -33,45 +33,17 @@ class MockRawDataProcessor:
         self.current_analog_step_direction = -1
         self.cold_end_value = 20
 
-    def check_data_length_and_limit(self, input_data_buffer, data_buffer_length_limit, data_buffer_int_limit):
-        if len(input_data_buffer) == data_buffer_length_limit:
-            for i in range(data_buffer_length_limit):
-                if input_data_buffer[i] < 0 or input_data_buffer[i] > data_buffer_int_limit:
-                    raise ValueError(f"Incorrect value passed into array.array object. It must be 0 through {data_buffer_int_limit}.")
-        else:
-            raise ValueError(
-                "Expected a memory view with {0} items, {1}{2} were received.".format(
-                    data_buffer_length_limit, "only " if len(input_data_buffer) < data_buffer_length_limit else "", len(input_data_buffer)
-                )
-            )
-
     def upload_new_driver_settings(self, data_type_string, data_buffer):
         if data_type_string == "digital_outputs":
-            data_buffer_len = self.number_of_digital_outputs
-            data_buffer_int_limit = 1
-            self.check_data_length_and_limit(data_buffer, data_buffer_len, data_buffer_int_limit)
-
             if self.last_digital_output_array != data_buffer:
                 self.last_digital_output_array = data_buffer
         elif data_type_string == "analog_gains":
-            data_buffer_len = self.number_of_analog_inputs
-            data_buffer_int_limit = 3
-            self.check_data_length_and_limit(data_buffer, data_buffer_len, data_buffer_int_limit)
-
             if self.last_analog_gain_array != data_buffer:
                 self.last_analog_gain_array = data_buffer
         elif data_type_string == "analog_filters":
-            data_buffer_len = self.number_of_analog_inputs
-            data_buffer_int_limit = 15
-            self.check_data_length_and_limit(data_buffer, data_buffer_len, data_buffer_int_limit)
-
             if self.last_analog_filter_array != data_buffer:
                 self.last_analog_filter_array = data_buffer
         elif data_type_string == "digital_input_debounce":
-            data_buffer_len = self.number_of_digital_inputs
-            data_buffer_int_limit = self.debounce_raw_buffer_size - 1
-            self.check_data_length_and_limit(data_buffer, data_buffer_len, data_buffer_int_limit)
-
             if self.last_digital_input_debounce_array != data_buffer:
                 self.last_digital_input_debounce_array = data_buffer
         else:
