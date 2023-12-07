@@ -1,6 +1,7 @@
 import datetime
 import time
 import array
+from itertools import chain, repeat, islice
 
 from plantstar_shared.global_definitions import utc_now
 
@@ -23,10 +24,10 @@ class MockRawDataProcessor:
         self.analog_value_max = analog_value_max
         self.analog_value_step = analog_value_step
 
-        self.last_digital_input_debounce_array = array.array("B", [0 for _ in range(self.number_of_digital_inputs)])
-        self.last_digital_output_array = array.array("B", [0 for _ in range(self.number_of_digital_outputs)])
-        self.last_analog_filter_array = array.array("B", [0 for _ in range(self.number_of_analog_inputs)])
-        self.last_analog_gain_array = array.array("B", [0 for _ in range(self.number_of_analog_inputs)])
+        self.last_digital_input_debounce_array = array.array("B", pad([0 for _ in range(self.number_of_digital_inputs)], self.debounce_raw_buffer_size, 0))
+        self.last_digital_output_array = array.array("B", pad([0 for _ in range(self.number_of_digital_outputs)], self.debounce_raw_buffer_size, 0))
+        self.last_analog_filter_array = array.array("B", pad([0 for _ in range(self.number_of_analog_inputs)], self.debounce_raw_buffer_size, 0))
+        self.last_analog_gain_array = array.array("B", pad([0 for _ in range(self.number_of_analog_inputs)], self.debounce_raw_buffer_size, 0))
 
         self.state_on_or_off_value = False
         self.current_analog_value = analog_value_max
@@ -34,20 +35,22 @@ class MockRawDataProcessor:
         self.cold_end_value = 20
 
     def upload_new_driver_settings(self, data_type_string, data_buffer):
+        data_buffer_array = array.array("B", list(pad(data_buffer, self.debounce_raw_buffer_size, 0)))
+
         if data_type_string == "digital_outputs":
-            if self.last_digital_output_array != data_buffer:
-                self.last_digital_output_array = data_buffer
+            if self.last_digital_output_array != data_buffer_array:
+                self.last_digital_output_array = data_buffer_array
         elif data_type_string == "analog_gains":
-            if self.last_analog_gain_array != data_buffer:
-                self.last_analog_gain_array = data_buffer
+            if self.last_analog_gain_array != data_buffer_array:
+                self.last_analog_gain_array = data_buffer_array
         elif data_type_string == "analog_filters":
-            if self.last_analog_filter_array != data_buffer:
-                self.last_analog_filter_array = data_buffer
+            if self.last_analog_filter_array != data_buffer_array:
+                self.last_analog_filter_array = data_buffer_array
         elif data_type_string == "digital_input_debounce":
-            if self.last_digital_input_debounce_array != data_buffer:
-                self.last_digital_input_debounce_array = data_buffer
+            if self.last_digital_input_debounce_array != data_buffer_array:
+                self.last_digital_input_debounce_array = data_buffer_array
         else:
-            if type(data_type_string) == str:
+            if isinstance(data_type_string, str):
                 raise ValueError(
                     f"An Incorrect value of {data_type_string} was passed. This function expects \"digital_outputs\", \"analog_gains\", or \"analog_filters\"."
                 )
@@ -72,9 +75,9 @@ class MockRawDataProcessor:
 
         return_dictionary = {
             1: {
-                "digitals": {state_index + 1: int(self.state_on_or_off_value) for state_index in range(16)},
-                "analogs": {state_index + 1: self.current_analog_value for state_index in range(24)},
-                "cold_end": {state_index + 1: self.cold_end_value for state_index in range(24)},
+                "analogs": [self.current_analog_value for _ in range(200)],
+                "cold_end": [self.cold_end_value for _ in range(200)],
+                "digitals": [int(self.state_on_or_off_value) for _ in range(200)],
                 "event_unix_timestamp": the_now.timestamp()
             }
         }
@@ -103,3 +106,11 @@ class MockRawDataProcessor:
             self.current_analog_step_direction *= -1
 
         self.current_analog_value = new_analog_value
+
+
+def pad(iterable, size, padding=None):
+    return islice(pad_infinite(iterable, padding), size)
+
+
+def pad_infinite(iterable, padding=None):
+    return chain(iterable, repeat(padding))
