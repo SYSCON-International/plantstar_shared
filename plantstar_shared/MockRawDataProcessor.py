@@ -75,9 +75,9 @@ class MockRawDataProcessor:
 
         return_dictionary = {
             1: {
-                "analogs": [self.current_analog_value for _ in range(200)],
-                "cold_ends": [self.cold_end_value for _ in range(200)],
-                "digitals": [int(self.state_on_or_off_value) for _ in range(200)],
+                "analogs": [self.current_analog_value for _ in range(self.debounce_raw_buffer_size)],
+                "cold_ends": [self.cold_end_value for _ in range(self.debounce_raw_buffer_size)],
+                "digitals": [int(self.state_on_or_off_value) for _ in range(self.debounce_raw_buffer_size)],
                 "event_unix_timestamp": the_now.timestamp()
             }
         }
