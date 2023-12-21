@@ -73,18 +73,18 @@ class MockRawDataProcessor:
                 self.current_analog_value = self.analog_value_max
                 self.current_analog_step_direction = -1
 
-        return_dictionary = {
-            1: {
+        return_input_signal_dictionary_list = [
+            {
                 "analogs": [self.current_analog_value for _ in range(self.debounce_raw_buffer_size)],
                 "cold_ends": [self.cold_end_value for _ in range(self.debounce_raw_buffer_size)],
-                "digitals": [int(self.state_on_or_off_value) for _ in range(self.debounce_raw_buffer_size)],
+                "digitals": [self.state_on_or_off_value for _ in range(self.debounce_raw_buffer_size)],
                 "event_unix_timestamp": the_now.timestamp()
             }
-        }
+        ]
 
         self.step_current_analog_value()
 
-        return return_dictionary
+        return return_input_signal_dictionary_list
 
     def get_driver_version_string(self):
         return "Mock"
