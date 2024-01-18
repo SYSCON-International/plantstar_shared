@@ -28,17 +28,21 @@ def get_message_from_socket(*, remote_socket):
     if not message_length:
         return None
 
-    data = b''
+    packets = []
+    bytes_received = 0
 
     # While loop that will stream in data if the full request is not available yet
-    while len(data) < message_length:
-        packet = remote_socket.recv(message_length - len(data))
+    while bytes_received < message_length:
+        buffer_size = message_length - bytes_received
+        packet = remote_socket.recv(buffer_size)
 
         if not packet:
             return None
 
-        data += packet
+        packets.append(packet)
+        bytes_received = bytes_received + len(packet)
 
+    data = b''.join(packets)
     return data
 
 
