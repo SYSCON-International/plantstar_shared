@@ -7,16 +7,23 @@ from plantstar_shared.errors import SocketConnectionError
 SIZE_OF_UNSIGNED_INT_STRUCT = 4  # size of integer value that precedes data coming from DCM
 
 
-def read_size_value_from_socket(*, remote_socket):
-    size_struct = remote_socket.recv(SIZE_OF_UNSIGNED_INT_STRUCT)
+def read_size_value_from_socket(*, remote_socket, is_big_endian, number_of_bytes_for_size_prefix):
+    size_bytes = remote_socket.recv(number_of_bytes_for_size_prefix)
 
-    if not size_struct:
+    if not size_bytes:
         return None
 
-    try:
-        message_length = struct.unpack('>I', size_struct)[0]
-    except struct.error as error:
-        raise SocketConnectionError
+    if number_of_bytes_for_size_prefix == 2:
+        message_length = int.from_bytes(size_bytes, 'big') if is_big_endian else int.from_bytes(size_bytes, 'little')
+    elif number_of_bytes_for_size_prefix == SIZE_OF_UNSIGNED_INT_STRUCT:
+        number_format = ">I" if is_big_endian else "<I"
+
+        try:
+            message_length = struct.unpack(number_format, size_bytes)[0]
+        except struct.error as error:
+            raise SocketConnectionError
+    else:
+        raise SysconProgrammingError("A size prefix was set to something other than 2 or 4")
 
     return message_length
 
