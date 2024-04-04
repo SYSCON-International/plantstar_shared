@@ -2,7 +2,7 @@ import struct
 
 from plantstar_shared.convert_bytes_to_object import convert_bytes_to_object
 from plantstar_shared.convert_object_to_bytes import convert_object_to_bytes
-from plantstar_shared.errors import SocketConnectionError
+from plantstar_shared.errors import SocketConnectionError, SysconProgrammingError
 
 SIZE_OF_UNSIGNED_INT_STRUCT = 4  # size of integer value that precedes data coming from DCM
 
@@ -28,18 +28,49 @@ def read_size_value_from_socket(*, remote_socket, is_big_endian, number_of_bytes
     return message_length
 
 
-def get_message_from_socket(*, remote_socket):
-    message_length = read_size_value_from_socket(remote_socket=remote_socket)
+def get_bytes_from_socket(*, remote_socket, number_of_bytes_to_read=None, is_big_endian=True, number_of_bytes_for_size_prefix=0, should_remove_prefix_size_from_read=False):
+    """Obtains a number of bytes from a provided socket, with options for different configurations and situations
 
-    if not message_length:
-        return None
+    Keywords / Example Configurations:
+        remote_socket -- the connection that bytes will be read from
+
+        number_of_bytes_to_read -- the number of bytes to read on the socket, if this is known, this is the only optional parameter needed (default: 0)
+
+        is_big_endian -- bool that determines what format string should be used for unpacking the size value (default: True)
+
+        number_of_bytes_for_size_prefix -- the number of bytes to read to determine the total size of the message to pass (default: 0)
+
+        should_remove_prefix_size_from_read -- bool that determines if the size should be removed from the calculated number of bytes to read (default: False)
+
+        -----
+
+        get_bytes_from_socket(remote_socket=conn, number_of_bytes_to_read=100) - likely would not be called directly, in most cases
+
+        get_bytes_from_socket(remote_socket=conn, is_big_endian=True, number_of_bytes_for_size_prefix=4) - reads 4 bytes to get the size, then reads that amount (DCM socket, etc)
+
+        get_bytes_from_socket(remote_socket=conn, is_big_endian=False, number_of_bytes_for_size_prefix=2, should_remove_prefix_size_from_read=True) - reads 2 bytes to get the size,
+        then reads that calculated amount minus 2 (Husky socket, etc)
+
+    """
+
+    if not number_of_bytes_to_read:
+        if number_of_bytes_for_size_prefix:
+            number_of_bytes_to_read = read_size_value_from_socket(
+                remote_socket=remote_socket, is_big_endian=is_big_endian, number_of_bytes_for_size_prefix=number_of_bytes_for_size_prefix
+            )
+
+    if not number_of_bytes_to_read:
+        raise SysconProgrammingError("get_bytes_from_socket was called with no parameters for number_of_bytes_to_read or number_of_bytes_for_size_prefix")
+
+    if should_remove_prefix_size_from_read:
+        number_of_bytes_to_read = number_of_bytes_to_read - number_of_bytes_for_size_prefix
 
     packets = []
     bytes_received = 0
 
     # While loop that will stream in data if the full request is not available yet
-    while bytes_received < message_length:
-        buffer_size = message_length - bytes_received
+    while bytes_received < number_of_bytes_to_read:
+        buffer_size = number_of_bytes_to_read - bytes_received
         packet = remote_socket.recv(buffer_size)
 
         if not packet:
@@ -70,6 +101,7 @@ def send_encoded_message_on_socket(*, remote_socket, encoded_message):
 
 
 def get_object_from_socket(*, remote_socket):
-    object_from_interface_as_bytes = get_message_from_socket(remote_socket=remote_socket)
+    """Function that is used between the APU and DCM to send dictionaries """
+    object_from_interface_as_bytes = get_bytes_from_socket(remote_socket=remote_socket, is_big_endian=True, number_of_bytes_for_size_prefix=SIZE_OF_UNSIGNED_INT_STRUCT)
     object_from_interface = convert_bytes_to_object(object_from_interface_as_bytes)
     return object_from_interface
