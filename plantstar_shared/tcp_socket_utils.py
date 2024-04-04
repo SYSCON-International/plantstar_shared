@@ -4,7 +4,7 @@ from plantstar_shared.convert_bytes_to_object import convert_bytes_to_object
 from plantstar_shared.convert_object_to_bytes import convert_object_to_bytes
 from plantstar_shared.errors import SocketConnectionError
 
-SIZE_OF_UNSIGNED_INT_STRUCT = 4
+SIZE_OF_UNSIGNED_INT_STRUCT = 4  # size of integer value that precedes data coming from DCM
 
 
 def read_size_value_from_socket(*, remote_socket):
