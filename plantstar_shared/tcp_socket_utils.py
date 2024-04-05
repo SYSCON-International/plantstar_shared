@@ -108,5 +108,9 @@ def get_object_from_socket(
     object_from_interface_as_bytes, _ = get_bytes_from_socket(
         remote_socket=remote_socket, number_of_bytes_to_read=number_of_bytes_to_read, is_big_endian=is_big_endian, number_of_bytes_for_size_prefix=number_of_bytes_for_size_prefix
     )
+
+    if not object_from_interface_as_bytes:
+        return None
+
     object_from_interface = convert_bytes_to_object(object_from_interface_as_bytes)
     return object_from_interface
