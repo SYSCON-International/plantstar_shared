@@ -12,21 +12,21 @@ def read_size_value_from_socket(*, remote_socket, is_big_endian, number_of_bytes
     size_bytes = remote_socket.recv(number_of_bytes_for_size_prefix)
 
     if not size_bytes:
-        return None
+        return None, None
 
-    if number_of_bytes_for_size_prefix == 2:
-        message_length = int.from_bytes(size_bytes, 'big') if is_big_endian else int.from_bytes(size_bytes, 'little')
+    if number_of_bytes_for_size_prefix == SIZE_OF_UNSIGNED_INT_FOR_HUSKY:
+        size_for_message = int.from_bytes(size_bytes, 'big') if is_big_endian else int.from_bytes(size_bytes, 'little')
     elif number_of_bytes_for_size_prefix == SIZE_OF_UNSIGNED_INT_STRUCT:
         number_format = ">I" if is_big_endian else "<I"
 
         try:
-            message_length = struct.unpack(number_format, size_bytes)[0]
+            size_for_message = struct.unpack(number_format, size_bytes)[0]
         except struct.error as error:
             raise SocketConnectionError
     else:
         raise SysconProgrammingError("A size prefix was set to something other than 2 or 4")
 
-    return message_length
+    return size_for_message, size_bytes
 
 
 def get_bytes_from_socket(*, remote_socket, number_of_bytes_to_read=None, is_big_endian=True, number_of_bytes_for_size_prefix=0):
