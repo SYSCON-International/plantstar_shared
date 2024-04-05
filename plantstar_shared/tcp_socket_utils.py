@@ -29,8 +29,9 @@ def read_size_value_from_socket(*, remote_socket, is_big_endian, number_of_bytes
     return message_length
 
 
-def get_bytes_from_socket(*, remote_socket, number_of_bytes_to_read=None, is_big_endian=True, number_of_bytes_for_size_prefix=0, should_remove_prefix_size_from_read=False):
-    """Obtains a number of bytes from a provided socket, with options for different configurations and situations
+def get_bytes_from_socket(*, remote_socket, number_of_bytes_to_read=None, is_big_endian=True, number_of_bytes_for_size_prefix=0):
+    """Obtains a number of bytes from a provided socket, with options for different configurations and situations.
+    Returns byte sequence, and the size value that was obtained from the prefix bytes.
 
     Keywords / Example Configurations:
         remote_socket -- the connection that bytes will be read from
@@ -60,11 +61,10 @@ def get_bytes_from_socket(*, remote_socket, number_of_bytes_to_read=None, is_big
                 remote_socket=remote_socket, is_big_endian=is_big_endian, number_of_bytes_for_size_prefix=number_of_bytes_for_size_prefix
             )
 
-    if not number_of_bytes_to_read:
-        raise SysconProgrammingError("get_bytes_from_socket was called with no parameters for number_of_bytes_to_read or number_of_bytes_for_size_prefix")
-
-    if should_remove_prefix_size_from_read:
-        number_of_bytes_to_read = number_of_bytes_to_read - number_of_bytes_for_size_prefix
+            if not number_of_bytes_to_read:
+                return None, None
+        else:
+            raise SysconProgrammingError("get_bytes_from_socket was called with no parameters for number_of_bytes_to_read or number_of_bytes_for_size_prefix")
 
     packets = []
     bytes_received = 0
@@ -75,13 +75,13 @@ def get_bytes_from_socket(*, remote_socket, number_of_bytes_to_read=None, is_big
         packet = remote_socket.recv(buffer_size)
 
         if not packet:
-            return None
+            return None, number_of_bytes_to_read
 
         packets.append(packet)
         bytes_received = bytes_received + len(packet)
 
     data = b''.join(packets)
-    return data
+    return data, number_of_bytes_to_read
 
 
 def send_message_on_socket(*, remote_socket, dumpsable_object):
