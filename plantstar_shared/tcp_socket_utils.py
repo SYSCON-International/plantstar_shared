@@ -45,7 +45,7 @@ def get_bytes_from_socket(*, remote_socket, number_of_bytes_to_read=None, is_big
 
         number_of_bytes_for_size_prefix -- the number of bytes to read to determine the total size of the message to pass (default: 0)
 
-        size_value_includes_size_prefix_bytes -- bool: if size value obtained from prefix includes the bytes from prefix, likely only Husky does this (default: False)
+        size_value_includes_size_prefix_bytes -- bool: if size value should be prepended to the byte sequence, likely only Husky does this (default: False)
 
         -----
 
@@ -58,6 +58,8 @@ def get_bytes_from_socket(*, remote_socket, number_of_bytes_to_read=None, is_big
 
     """
 
+    packets = []
+
     if not number_of_bytes_to_read:
         if number_of_bytes_for_size_prefix:
             number_of_bytes_to_read, size_bytes = read_size_value_from_socket(
@@ -67,10 +69,13 @@ def get_bytes_from_socket(*, remote_socket, number_of_bytes_to_read=None, is_big
 
             if not number_of_bytes_to_read:
                 return None, None
+
+            if size_value_includes_size_prefix_bytes:
+                packets.append(size_bytes)
+
         else:
             raise SysconProgrammingError("get_bytes_from_socket was called with no parameters for number_of_bytes_to_read or number_of_bytes_for_size_prefix")
 
-    packets = []
     bytes_received = 0
 
     # While loop that will stream in data if the full request is not available yet
