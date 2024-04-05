@@ -8,7 +8,7 @@ SIZE_OF_UNSIGNED_INT_FOR_HUSKY = 2  # size of the integer value that precedes da
 SIZE_OF_UNSIGNED_INT_STRUCT = 4  # size of the integer value that precedes data coming from most sockets (DeviceController, DCM, etc)
 
 
-def read_size_value_from_socket(*, remote_socket, is_big_endian, number_of_bytes_for_size_prefix, should_size_value_include_size_prefix_bytes=False):
+def read_size_value_from_socket(*, remote_socket, is_big_endian, number_of_bytes_for_size_prefix, size_value_includes_size_prefix_bytes=False):
     size_bytes = remote_socket.recv(number_of_bytes_for_size_prefix)
 
     if not size_bytes:
@@ -26,14 +26,13 @@ def read_size_value_from_socket(*, remote_socket, is_big_endian, number_of_bytes
     else:
         raise SysconProgrammingError("A size prefix was set to something other than 2 or 4")
 
-
-    if should_size_value_include_size_prefix_bytes:
+    if size_value_includes_size_prefix_bytes:
         size_for_message = size_for_message - number_of_bytes_for_size_prefix
 
     return size_for_message, size_bytes
 
 
-def get_bytes_from_socket(*, remote_socket, number_of_bytes_to_read=None, is_big_endian=True, number_of_bytes_for_size_prefix=0, should_size_value_include_size_prefix_bytes=False):
+def get_bytes_from_socket(*, remote_socket, number_of_bytes_to_read=None, is_big_endian=True, number_of_bytes_for_size_prefix=0, size_value_includes_size_prefix_bytes=False):
     """Obtains a number of bytes from a provided socket, with options for different configurations and situations.
     Returns byte sequence, and the size value that was obtained from the prefix bytes.
 
@@ -46,7 +45,7 @@ def get_bytes_from_socket(*, remote_socket, number_of_bytes_to_read=None, is_big
 
         number_of_bytes_for_size_prefix -- the number of bytes to read to determine the total size of the message to pass (default: 0)
 
-        should_size_value_include_size_prefix_bytes -- bool: if size value obtained from prefix includes the bytes from prefix, likely only Husky does this (default: False)
+        size_value_includes_size_prefix_bytes -- bool: if size value obtained from prefix includes the bytes from prefix, likely only Husky does this (default: False)
 
         -----
 
@@ -63,7 +62,7 @@ def get_bytes_from_socket(*, remote_socket, number_of_bytes_to_read=None, is_big
         if number_of_bytes_for_size_prefix:
             number_of_bytes_to_read, size_bytes = read_size_value_from_socket(
                 remote_socket=remote_socket, is_big_endian=is_big_endian, number_of_bytes_for_size_prefix=number_of_bytes_for_size_prefix,
-                should_size_value_include_size_prefix_bytes=should_size_value_include_size_prefix_bytes
+                size_value_includes_size_prefix_bytes=size_value_includes_size_prefix_bytes
             )
 
             if not number_of_bytes_to_read:
@@ -108,12 +107,12 @@ def send_encoded_message_on_socket(*, remote_socket, encoded_message):
 
 def get_object_from_socket(
     *, remote_socket, number_of_bytes_to_read=None, is_big_endian=True, number_of_bytes_for_size_prefix=SIZE_OF_UNSIGNED_INT_STRUCT,
-    should_size_value_include_size_prefix_bytes=False
+    size_value_includes_size_prefix_bytes=False
 ):
     """Function that is used between the APU and DCM to send dictionaries. Returns a tuple of the object and its size in bytes."""
     object_from_interface_as_bytes, size_of_object_in_bytes = get_bytes_from_socket(
         remote_socket=remote_socket, number_of_bytes_to_read=number_of_bytes_to_read, is_big_endian=is_big_endian, number_of_bytes_for_size_prefix=number_of_bytes_for_size_prefix,
-        should_size_value_include_size_prefix_bytes=should_size_value_include_size_prefix_bytes
+        size_value_includes_size_prefix_bytes=size_value_includes_size_prefix_bytes
     )
 
     if not object_from_interface_as_bytes:
