@@ -110,7 +110,7 @@ def get_object_from_socket(
     )
 
     if not object_from_interface_as_bytes:
-        return None
+        return None, None
 
     object_from_interface = convert_bytes_to_object(object_from_interface_as_bytes)
     return object_from_interface, size_of_object_in_bytes
