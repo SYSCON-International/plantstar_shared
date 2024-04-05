@@ -102,7 +102,7 @@ def send_encoded_message_on_socket(*, remote_socket, encoded_message):
 
 
 def get_object_from_socket(
-    *, remote_socket, number_of_bytes_to_read=None, is_big_endian=True, number_of_bytes_for_size_prefix=SIZE_OF_UNSIGNED_INT_STRUCT, should_remove_prefix_size_from_read=False
+    *, remote_socket, number_of_bytes_to_read=None, is_big_endian=True, number_of_bytes_for_size_prefix=SIZE_OF_UNSIGNED_INT_STRUCT
 ):
     """Function that is used between the APU and DCM to send dictionaries """
     object_from_interface_as_bytes, size_of_object_in_bytes = get_bytes_from_socket(
