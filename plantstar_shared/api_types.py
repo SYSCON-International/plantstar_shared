@@ -97,6 +97,8 @@ class DataCollectionModuleApiTypes(SysconType):
 class ApuApiTypes(SysconType):
     SET_IS_INITIALIZING_STATUS = ("data_collection_module_manager/set_is_initializing_status", "data_collection_module_manager/set_is_initializing_status", True)
     SET_IS_COLDBOOTING_STATUS = ("data_collection_module_manager/set_is_coldbooting_status", "data_collection_module_manager/set_is_coldbooting_status", True)
+    REGISTER_HMI = ("data_collection_module_manager/register_hmi", "data_collection_module_manager/register_hmi", True)
+    REGISTER_DCM = ("data_collection_module_manager/register_dcm", "data_collection_module_manager/register_dcm", True)
 
 
 class CosmosApiTypes(SysconType):
