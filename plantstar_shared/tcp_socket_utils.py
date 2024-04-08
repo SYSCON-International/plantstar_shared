@@ -32,7 +32,10 @@ def read_size_value_from_socket(*, remote_socket, is_big_endian, number_of_bytes
     return size_for_message, size_bytes
 
 
-def get_bytes_from_socket(*, remote_socket, number_of_bytes_to_read=None, is_big_endian=True, number_of_bytes_for_size_prefix=0, size_value_includes_size_prefix_bytes=False):
+def get_bytes_from_socket(
+    *, remote_socket, number_of_bytes_to_read=None, is_big_endian=True, number_of_bytes_for_size_prefix=0, size_value_includes_size_prefix_bytes=False,
+    size_value_should_be_included_in_final_message=False
+):
     """Obtains a number of bytes from a provided socket, with options for different configurations and situations.
     Returns byte sequence, and the size value that was obtained from the prefix bytes.
 
@@ -45,7 +48,9 @@ def get_bytes_from_socket(*, remote_socket, number_of_bytes_to_read=None, is_big
 
         number_of_bytes_for_size_prefix -- the number of bytes to read to determine the total size of the message to pass (default: 0)
 
-        size_value_includes_size_prefix_bytes -- bool: if size value should be prepended to the byte sequence, likely only Husky does this (default: False)
+        size_value_includes_size_prefix_bytes -- bool: if size value includes the size_prefix_bytes based on the systems implementation
+
+        size_value_should_be_included_in_final_message  -- bool: if size value should be prepended to the byte sequence, likely only Husky logic wants this (default: False)
 
         -----
 
@@ -70,7 +75,7 @@ def get_bytes_from_socket(*, remote_socket, number_of_bytes_to_read=None, is_big
             if not number_of_bytes_to_read:
                 return None, None
 
-            if size_value_includes_size_prefix_bytes:
+            if size_value_should_be_included_in_final_message:
                 packets.append(size_bytes)
 
         else:
