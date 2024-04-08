@@ -12,7 +12,7 @@ def read_size_value_from_socket(*, remote_socket, is_big_endian, number_of_bytes
     size_bytes = remote_socket.recv(number_of_bytes_for_size_prefix)
 
     if not size_bytes:
-        return None, None
+        raise SocketConnectionError
 
     if number_of_bytes_for_size_prefix == SIZE_OF_UNSIGNED_INT_FOR_HUSKY:
         size_for_message = int.from_bytes(size_bytes, 'big') if is_big_endian else int.from_bytes(size_bytes, 'little')
@@ -73,7 +73,7 @@ def get_bytes_from_socket(
             )
 
             if not number_of_bytes_to_read:
-                return None, None
+                raise SocketConnectionError
 
             if size_value_should_be_included_in_final_message:
                 packets.append(size_bytes)
@@ -89,7 +89,7 @@ def get_bytes_from_socket(
         packet = remote_socket.recv(buffer_size)
 
         if not packet:
-            return None, number_of_bytes_to_read
+            raise SocketConnectionError
 
         packets.append(packet)
         bytes_received = bytes_received + len(packet)
@@ -126,7 +126,7 @@ def get_object_from_socket(
     )
 
     if not object_from_interface_as_bytes:
-        return None, None
+        raise SocketConnectionError
 
     object_from_interface = convert_bytes_to_object(object_from_interface_as_bytes)
     return object_from_interface, size_of_object_in_bytes
