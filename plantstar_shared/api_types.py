@@ -103,3 +103,10 @@ class ApuApiTypes(SysconType):
 
 class CosmosApiTypes(SysconType):
     SEND_DATA_DICTIONARY = ("send_data_dictionary", "send_data_dictionary", True)
+
+
+class HmiApiTypes(SysconType):
+    GET_HMI_SYSTEM_INFORMATION = ("get_hmi_system_information", "get_hmi_system_information", True)
+    SET_HMI_SYSTEM_INFORMATION = ("set_hmi_system_information", "set_hmi_system_information", True)
+    REBOOT_HMI = ("reboot_hmi", "reboot_hmi", True)
+
