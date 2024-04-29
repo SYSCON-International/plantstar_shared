@@ -89,12 +89,13 @@ class SysconDecoder(json.JSONDecoder):
         if "tzinfo" in dictionary:
             # This is here for a weird bug that was happening
             if dictionary["tzinfo"] is None or dictionary["tzinfo"] in ["None", "tzlocal()", "tzutc()"]:
-                dictionary["tzinfo"] = "UTC"
+                dictionary["tzinfo"] = pytz.UTC
             else:
-                tzinfo_to_localize = pytz.timezone(dictionary["tzinfo"])
-                dictionary.pop('tzinfo')
-                localized_datetime = tzinfo_to_localize.localize(datetime.datetime(**dictionary))
-                return localized_datetime
+                if type_name == "datetime":
+                    tzinfo_to_localize = pytz.timezone(dictionary["tzinfo"])
+                    dictionary.pop('tzinfo')
+                    localized_datetime = tzinfo_to_localize.localize(datetime.datetime(**dictionary))
+                    return localized_datetime
 
         if type_name == "datetime":
             return datetime.datetime(**dictionary)
