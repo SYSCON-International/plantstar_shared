@@ -22,11 +22,11 @@ setuptools.setup(
     ],
     install_requires=[
         # Make sure to update the requirements.txt to match any changes made to this section
-        "Django>=4.0.4",
+        "Django>=4.1.5",
         "msgpack>=1.0.4",
-        "psycopg2>=2.9.3",
+        "psycopg2>=2.9.9",
         "python-dateutil>=2.8.2",
-        "pytz>=2022.1",
-        "requests>=2.27.1",
+        "pytz>=2023.4",
+        "requests>=2.31.0",
     ]
 )
