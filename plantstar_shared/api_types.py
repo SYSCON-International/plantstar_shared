@@ -101,6 +101,11 @@ class ApuApiTypes(SysconType):
     REGISTER_DCM = ("data_collection_module_manager/register_dcm", "data_collection_module_manager/register_dcm", True)
 
 
+class FingerprintApiTypes(SysconType):
+    ENROLL_USER_FINGERPRINT = ("user_manager/enroll_user_fingerprint", "user_manager/enroll_user_fingerprint", True)
+    GET_USER_FINGERPRINT = ("user_manager/get_user_fingerprint", "user_manager/get_user_fingerprint", True)
+
+
 class CosmosApiTypes(SysconType):
     SEND_DATA_DICTIONARY = ("send_data_dictionary", "send_data_dictionary", True)
 
