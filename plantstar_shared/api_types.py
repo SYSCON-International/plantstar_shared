@@ -111,6 +111,8 @@ class CosmosApiTypes(SysconType):
 
 
 class HmiApiTypes(SysconType):
+    IDENTIFY_FINGERPRINT = ("identify_fingerprint", "identify_fingerprint", True)
+    ADD_FINGERPRINT = ("add_fingerprint", "add_fingerprint", True)
     GET_HMI_SYSTEM_INFORMATION = ("get_hmi_system_information", "get_hmi_system_information", True)
     SET_HMI_SYSTEM_INFORMATION = ("set_hmi_system_information", "set_hmi_system_information", True)
     REBOOT_HMI = ("reboot_hmi", "reboot_hmi", True)
