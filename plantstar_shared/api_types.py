@@ -99,11 +99,11 @@ class ApuApiTypes(SysconType):
     SET_IS_COLDBOOTING_STATUS = ("data_collection_module_manager/set_is_coldbooting_status", "data_collection_module_manager/set_is_coldbooting_status", True)
     REGISTER_HMI = ("data_collection_module_manager/register_hmi", "data_collection_module_manager/register_hmi", True)
     REGISTER_DCM = ("data_collection_module_manager/register_dcm", "data_collection_module_manager/register_dcm", True)
-
-
-class FingerprintApiTypes(SysconType):
-    ENROLL_USER_FINGERPRINT = ("user_manager/enroll_user_fingerprint", "user_manager/enroll_user_fingerprint", True)
-    GET_USER_FINGERPRINT = ("user_manager/get_user_fingerprint", "user_manager/get_user_fingerprint", True)
+    GET_USER_FINGERPRINTS = ("user_manager/get_user_fingerprints", "user_manager/get_user_fingerprints", True)
+    ADD_USER_FINGERPRINT = ("user_manager/add_user_fingerprint", "user_manager/add_user_fingerprint", True)
+    DELETE_USER_FINGERPRINT = ("user_manager/delete_user_fingerprint", "user_manager/delete_user_fingerprint", True)
+    RELABEL_USER_FINGERPRINT = ("user_manager/relabel_user_fingerprint", "user_manager/relabel_user_fingerprint", True)
+    IDENTIFY_USER_FINGERPRINT = ("user_manager/identify_user_fingerprint", "user_manager/identify_user_fingerprint", True)
 
 
 class CosmosApiTypes(SysconType):
