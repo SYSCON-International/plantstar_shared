@@ -42,3 +42,8 @@ class StatusCodes:
     @staticmethod
     def convert_to_json():
         return convert_to_json(StatusCodes)
+
+
+class UserTypes:
+    DATA_COLLECTION_MODULE_SYSTEM_USER = "DataCollectionModuleSystemUser"
+    HUMAN_MACHINE_INTERFACE_SYSTEM_USER = "HumanMachineInterfaceSystemUser"
