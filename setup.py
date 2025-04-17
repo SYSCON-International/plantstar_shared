@@ -7,7 +7,7 @@ setuptools.setup(
     name="plantstar-shared",
     # MAJOR_MILESTONE_VERSION.MINOR_MILESTONE_VERSION.MAJOR_VERSION.MINOR_VERSION.HOTFIX_VERSION.SUBVERSION
     # The main version should stay as v2.0.3.0.x until we have passed that in the plantstar_apu/plantstar_dcm projects
-    version="2.0.3.0.2.26",
+    version="2.0.3.0.2.27",
     author="SYSCON International",
     author_email="dev@syscon-intl.com",
     description="Shared code used in plantstar_apu and plantstar_dcm",
@@ -22,7 +22,7 @@ setuptools.setup(
     ],
     install_requires=[
         # Make sure to update the requirements.txt to match any changes made to this section
-        "Django>=4.1.5",
+        "Django>=4.2.0",
         "msgpack>=1.0.4",
         "psycopg2>=2.9.9",
         "python-dateutil>=2.8.2",
