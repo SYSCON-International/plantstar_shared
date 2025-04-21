@@ -87,6 +87,7 @@ def validate_request(*, api_type, signer_key, data):
 class DataCollectionModuleApiTypes(SysconType):
     GET_DATA_COLLECTION_MODULE_SYSTEM_DISK_USAGE = ("get_data_collection_module_system_disk_usage", "get_data_collection_module_system_disk_usage", True)
     GET_DATA_COLLECTION_MODULE_SYSTEM_INFORMATION = ("get_data_collection_module_system_information", "get_data_collection_module_system_information", True)
+    SET_DATA_COLLECTION_MODULE_SYSTEM_INFORMATION = ("set_data_collection_module_system_information", "set_data_collection_module_system_information", True)
     GET_SYSTEM_ERROR_DICTIONARY_LIST = ("get_system_error_dictionary_list", "get_system_error_dictionary_list", True)
 
     GET_DATA_COLLECTION_MODULE_PROCESS_STATUSES = ("get_data_collection_module_process_statuses", "get_data_collection_module_process_statuses", True)
