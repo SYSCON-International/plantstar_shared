@@ -15,6 +15,6 @@ class RioTypes:
     RIO3 = "rtl_rio3"
     RIO4 = "rtl_rio4"
 
-class DataCollectionModuleTypes:
+class DataCollectionModuleMachineTypes:
     MANO_DCM = "manodcm"
     RPI4_DCM = "rpi4dcm"
