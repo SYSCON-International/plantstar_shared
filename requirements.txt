@@ -7,9 +7,9 @@ Django>=4.2.0
 # Usage: Used to convert objects into bytes
 msgpack>=1.0.4
 
-# Psycopg2: PostgresSQL database adapter for Python, provides database interfaces
+# Psycopg: PostgresSQL database adapter for Python, provides database interfaces
 # Usage: Uses DateTimeTZRange function for processing DateTime objects/values
-psycopg2>=2.9.9
+psycopg[c]>=3.2.9
 
 # Python Dateutil: Extends standard Python datetime module to provide more comprehensive datetime processing
 # Usage: Used for properly setting timezone to UTC
