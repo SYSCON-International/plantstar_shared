@@ -9,7 +9,7 @@ msgpack>=1.0.4
 
 # Psycopg: PostgresSQL database adapter for Python, provides database interfaces
 # Usage: Uses DateTimeTZRange function for processing DateTime objects/values
-psycopg>=3.2.9
+psycopg[c]>=3.2.9
 
 # Python Dateutil: Extends standard Python datetime module to provide more comprehensive datetime processing
 # Usage: Used for properly setting timezone to UTC
