@@ -3,7 +3,7 @@ import datetime
 import uuid
 import pytz
 from dateutil.tz import tzutc
-from psycopg2._range import DateTimeTZRange
+from psycopg.types.range import TimestamptzRange
 
 from plantstar_shared.syscon_image_field import SysconImageFieldFile
 
@@ -57,7 +57,7 @@ class SysconEncoder(json.JSONEncoder):
             }
         elif isinstance(obj, uuid.UUID):
             return str(obj)
-        elif isinstance(obj, DateTimeTZRange):
+        elif isinstance(obj, TimestamptzRange):
             return {
                 "__type__": "datetime_range",
                 "lower": obj.lower,
@@ -108,7 +108,7 @@ class SysconDecoder(json.JSONDecoder):
         elif type_name == "uuid":
             return uuid.UUID(**dictionary)
         elif type_name == "datetime_range":
-            return DateTimeTZRange(**dictionary)
+            return TimestamptzRange(**dictionary)
         else:
             dictionary["__type__"] = type_name
             return dictionary
