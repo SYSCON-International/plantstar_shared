@@ -87,6 +87,7 @@ def validate_request(*, api_type, signer_key, data):
 class DataCollectionModuleApiTypes(SysconType):
     GET_DATA_COLLECTION_MODULE_SYSTEM_DISK_USAGE = ("get_data_collection_module_system_disk_usage", "get_data_collection_module_system_disk_usage", True)
     GET_DATA_COLLECTION_MODULE_SYSTEM_INFORMATION = ("get_data_collection_module_system_information", "get_data_collection_module_system_information", True)
+    SET_DATA_COLLECTION_MODULE_SYSTEM_INFORMATION = ("set_data_collection_module_system_information", "set_data_collection_module_system_information", True)
     GET_SYSTEM_ERROR_DICTIONARY_LIST = ("get_system_error_dictionary_list", "get_system_error_dictionary_list", True)
 
     GET_DATA_COLLECTION_MODULE_PROCESS_STATUSES = ("get_data_collection_module_process_statuses", "get_data_collection_module_process_statuses", True)
@@ -99,6 +100,7 @@ class ApuApiTypes(SysconType):
     SET_IS_COLDBOOTING_STATUS = ("data_collection_module_manager/set_is_coldbooting_status", "data_collection_module_manager/set_is_coldbooting_status", True)
     REGISTER_HMI = ("data_collection_module_manager/register_hmi", "data_collection_module_manager/register_hmi", True)
     REGISTER_DCM = ("data_collection_module_manager/register_dcm", "data_collection_module_manager/register_dcm", True)
+    SEND_TEAMS_MESSAGE = ("base_app/send_teams_message", "base_app/send_teams_message", True)
     GET_USER_FINGERPRINTS = ("user_manager/get_user_fingerprints", "user_manager/get_user_fingerprints", True)
     ADD_USER_FINGERPRINT = ("user_manager/add_user_fingerprint", "user_manager/add_user_fingerprint", True)
     DELETE_USER_FINGERPRINT = ("user_manager/delete_user_fingerprint", "user_manager/delete_user_fingerprint", True)
