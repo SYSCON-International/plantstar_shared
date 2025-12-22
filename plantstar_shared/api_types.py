@@ -102,10 +102,10 @@ class ApuApiTypes(SysconType):
     REGISTER_DCM = ("data_collection_module_manager/register_dcm", "data_collection_module_manager/register_dcm", True)
     SEND_TEAMS_MESSAGE = ("base_app/send_teams_message", "base_app/send_teams_message", True)
     GET_USER_FINGERPRINTS = ("user_manager/get_user_fingerprints", "user_manager/get_user_fingerprints", True)
-    ADD_USER_FINGERPRINT = ("user_manager/add_user_fingerprint", "user_manager/add_user_fingerprint", True)
+    ADD_USER_FINGERPRINT = ("user_manager/add_user_fingerprint", "user_manager/add_user_fingerprint", False)
     DELETE_USER_FINGERPRINT = ("user_manager/delete_user_fingerprint", "user_manager/delete_user_fingerprint", True)
     RELABEL_USER_FINGERPRINT = ("user_manager/relabel_user_fingerprint", "user_manager/relabel_user_fingerprint", True)
-    IDENTIFY_USER_FINGERPRINT = ("user_manager/identify_user_fingerprint", "user_manager/identify_user_fingerprint", True)
+    IDENTIFY_USER_FINGERPRINT = ("user_manager/identify_user_fingerprint", "user_manager/identify_user_fingerprint", False)
 
 
 class CosmosApiTypes(SysconType):
