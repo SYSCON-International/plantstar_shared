@@ -1,4 +1,5 @@
 import enum
+import inspect
 from functools import cache
 
 from plantstar_shared import syscon_json
