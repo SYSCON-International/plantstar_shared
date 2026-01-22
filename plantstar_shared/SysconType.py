@@ -5,7 +5,19 @@ from plantstar_shared import syscon_json
 from plantstar_shared.errors import SysconProgrammingError
 
 
-class SysconType(enum.Enum):
+class SysconType:
+    @classmethod
+    def get_options(the_class):
+        return [value for key, value in inspect.getmembers(the_class()) if not key.startswith("__") and not inspect.isfunction(value)]
+
+    @classmethod
+    def convert_to_json(the_class):
+        base_dictionary = dict((key, value) for key, value in inspect.getmembers(the_class()) if not key.startswith("__") and not inspect.isfunction(value))
+
+        return syscon_json.dumps(base_dictionary, default=lambda _: "Not Serializeable")
+
+
+class SysconTypeOld(enum.Enum):
     @classmethod
     def get_type_tuple_by_type_name(the_class, type_name):
         # Make a `type_cache` for all of the types the first time this method is called.  It may seem strange to not use a `cache` decorator here, but because we know of all the

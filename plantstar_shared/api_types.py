@@ -1,7 +1,7 @@
 import requests
 
 from django.core.signing import Signer
-from plantstar_shared.SysconType import SysconType
+from plantstar_shared.SysconType import SysconTypeOld
 from plantstar_shared.errors import InvalidApiRequest, SysconProgrammingError
 from plantstar_shared.is_valid_signed_string import is_valid_signed_string
 from plantstar_shared.global_definitions import safe_now
@@ -84,7 +84,7 @@ def validate_request(*, api_type, signer_key, data):
             raise InvalidApiRequest(f"Invalid signing: signer_key: {signer_key}, signed_string: {signed_string}, unsigned_string: {api_type_name}, salt: {signer_timestamp}")
 
 
-class DataCollectionModuleApiTypes(SysconType):
+class DataCollectionModuleApiTypes(SysconTypeOld):
     GET_DATA_COLLECTION_MODULE_SYSTEM_DISK_USAGE = ("get_data_collection_module_system_disk_usage", "get_data_collection_module_system_disk_usage", True)
     GET_DATA_COLLECTION_MODULE_SYSTEM_INFORMATION = ("get_data_collection_module_system_information", "get_data_collection_module_system_information", True)
     SET_DATA_COLLECTION_MODULE_SYSTEM_INFORMATION = ("set_data_collection_module_system_information", "set_data_collection_module_system_information", True)
@@ -95,7 +95,7 @@ class DataCollectionModuleApiTypes(SysconType):
     REBOOT_DATA_COLLECTION_MODULE = ("reboot_data_collection_module", "reboot_data_collection_module", True)
 
 
-class ApuApiTypes(SysconType):
+class ApuApiTypes(SysconTypeOld):
     SET_IS_INITIALIZING_STATUS = ("data_collection_module_manager/set_is_initializing_status", "data_collection_module_manager/set_is_initializing_status", True)
     SET_IS_COLDBOOTING_STATUS = ("data_collection_module_manager/set_is_coldbooting_status", "data_collection_module_manager/set_is_coldbooting_status", True)
     REGISTER_HMI = ("data_collection_module_manager/register_hmi", "data_collection_module_manager/register_hmi", True)
@@ -108,11 +108,11 @@ class ApuApiTypes(SysconType):
     IDENTIFY_USER_FINGERPRINT = ("user_manager/identify_user_fingerprint", "user_manager/identify_user_fingerprint", False)
 
 
-class CosmosApiTypes(SysconType):
+class CosmosApiTypes(SysconTypeOld):
     SEND_DATA_DICTIONARY = ("send_data_dictionary", "send_data_dictionary", True)
 
 
-class HmiApiTypes(SysconType):
+class HmiApiTypes(SysconTypeOld):
     IDENTIFY_FINGERPRINT = ("identify_fingerprint", "identify_fingerprint", True)
     ADD_FINGERPRINT = ("add_fingerprint", "add_fingerprint", True)
     GET_HMI_SYSTEM_INFORMATION = ("get_hmi_system_information", "get_hmi_system_information", True)
