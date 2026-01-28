@@ -18,6 +18,7 @@ class SysconType:
         return syscon_json.dumps(base_dictionary, default=lambda _: "Not Serializeable")
 
 
+# This is the deprecated version of SysconType, which uses enum.Enum.  It is left here until US#294 https://syscon-intl.monday.com/boards/4307087676/pulses/4414108867 is complete
 class SysconTypeOld(enum.Enum):
     @classmethod
     def get_type_tuple_by_type_name(the_class, type_name):
