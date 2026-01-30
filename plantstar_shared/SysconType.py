@@ -8,12 +8,18 @@ from plantstar_shared.errors import SysconProgrammingError
 
 class SysconType:
     @classmethod
+    def _field_iterator(the_class):
+        for key, value in inspect.getmembers(the_class()):
+            if not key.startswith("__") and not inspect.isfunction(value) and not inspect.ismethod(value):
+                yield key, value
+
+    @classmethod
     def get_options(the_class):
-        return [value for key, value in inspect.getmembers(the_class()) if not key.startswith("__") and not inspect.isfunction(value)]
+        return [value for _, value in the_class._field_iterator()]
 
     @classmethod
     def convert_to_json(the_class):
-        base_dictionary = dict((key, value) for key, value in inspect.getmembers(the_class()) if not key.startswith("__") and not inspect.isfunction(value))
+        base_dictionary = dict(the_class._field_iterator())
 
         return syscon_json.dumps(base_dictionary, default=lambda _: "Not Serializeable")
 
