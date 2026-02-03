@@ -1,7 +1,7 @@
-from plantstar_shared.SysconType import SysconType
+from plantstar_shared.SysconType import SysconTypeOld
 
 
-class DataCollectionModuleProcessNames(SysconType):
+class DataCollectionModuleProcessNames(SysconTypeOld):
     DIGITAL_ANALOG_PROCESSOR_INTERFACE = ("Digital Analog Processor Interface", )
     DIGITAL_ANALOG_TASKER_INTERFACE = ("Digital Analog Tasker Interface", )
     PROCESS_SPAWNER = ("Process Spawner", )
