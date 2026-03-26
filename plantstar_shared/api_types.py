@@ -112,7 +112,7 @@ class CosmosApiTypes(SysconTypeOld):
 
 
 class HmiApiTypes(SysconTypeOld):
-    IDENTIFY_FINGERPRINT = ("identify_fingerprint", "identify_fingerprint", False)
+    CAPTURE_FINGERPRINT = ("capture_fingerprint", "capture_fingerprint", False)
     ADD_FINGERPRINT = ("add_fingerprint", "add_fingerprint", False)
     GET_HMI_SYSTEM_INFORMATION = ("get_hmi_system_information", "get_hmi_system_information", True)
     SET_HMI_SYSTEM_INFORMATION = ("set_hmi_system_information", "set_hmi_system_information", True)
