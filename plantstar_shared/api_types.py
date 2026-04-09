@@ -105,7 +105,6 @@ class ApuApiTypes(SysconTypeOld):
     ADD_USER_FINGERPRINT = ("user_manager/add_user_fingerprint", "user_manager/add_user_fingerprint", False)
     DELETE_USER_FINGERPRINT = ("user_manager/delete_user_fingerprint", "user_manager/delete_user_fingerprint", True)
     RELABEL_USER_FINGERPRINT = ("user_manager/relabel_user_fingerprint", "user_manager/relabel_user_fingerprint", True)
-    IDENTIFY_USER_FINGERPRINT = ("user_manager/identify_user_fingerprint", "user_manager/identify_user_fingerprint", False)
 
 
 class CosmosApiTypes(SysconTypeOld):
@@ -113,8 +112,8 @@ class CosmosApiTypes(SysconTypeOld):
 
 
 class HmiApiTypes(SysconTypeOld):
-    IDENTIFY_FINGERPRINT = ("identify_fingerprint", "identify_fingerprint", True)
-    ADD_FINGERPRINT = ("add_fingerprint", "add_fingerprint", True)
+    CAPTURE_FINGERPRINT = ("capture_fingerprint", "capture_fingerprint", False)
+    ADD_FINGERPRINT = ("add_fingerprint", "add_fingerprint", False)
     GET_HMI_SYSTEM_INFORMATION = ("get_hmi_system_information", "get_hmi_system_information", True)
     SET_HMI_SYSTEM_INFORMATION = ("set_hmi_system_information", "set_hmi_system_information", True)
     REBOOT_HMI = ("reboot_hmi", "reboot_hmi", True)
