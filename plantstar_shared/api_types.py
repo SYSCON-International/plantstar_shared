@@ -89,7 +89,7 @@ class DataCollectionModuleApiTypes(SysconTypeOld):
     GET_DATA_COLLECTION_MODULE_SYSTEM_INFORMATION = ("get_data_collection_module_system_information", "get_data_collection_module_system_information", True)
     SET_DATA_COLLECTION_MODULE_SYSTEM_INFORMATION = ("set_data_collection_module_system_information", "set_data_collection_module_system_information", True)
     GET_SYSTEM_ERROR_DICTIONARY_LIST = ("get_system_error_dictionary_list", "get_system_error_dictionary_list", True)
-
+    GET_OR_SET_ANDON_LIGHTS_STATUS = ("get_or_set_andon_lights_status", "get_or_set_andon_lights_status", True)
     GET_DATA_COLLECTION_MODULE_PROCESS_STATUSES = ("get_data_collection_module_process_statuses", "get_data_collection_module_process_statuses", True)
     COLDBOOT_DATA_COLLECTION_MODULE = ("coldboot_data_collection_module", "coldboot_data_collection_module", True)
     REBOOT_DATA_COLLECTION_MODULE = ("reboot_data_collection_module", "reboot_data_collection_module", True)
@@ -117,4 +117,4 @@ class HmiApiTypes(SysconTypeOld):
     GET_HMI_SYSTEM_INFORMATION = ("get_hmi_system_information", "get_hmi_system_information", True)
     SET_HMI_SYSTEM_INFORMATION = ("set_hmi_system_information", "set_hmi_system_information", True)
     REBOOT_HMI = ("reboot_hmi", "reboot_hmi", True)
-
+    GET_OR_SET_ANDON_LIGHTS_STATUS = ("get_or_set_andon_lights_status", "get_or_set_andon_lights_status", True)
