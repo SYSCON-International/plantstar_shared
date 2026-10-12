@@ -6,8 +6,9 @@ class AndonLightsKeyConstants:
     WHITE = "white"
     BUZZER = "buzzer"
 
-    def get_list_of_options(self):
-        return [self.RED, self.GREEN, self.YELLOW, self.BLUE, self.WHITE, self.BUZZER]
+    @classmethod
+    def get_list_of_options(the_class):
+        return [the_class.RED, the_class.GREEN, the_class.YELLOW, the_class.BLUE, the_class.WHITE, the_class.BUZZER]
 
 
 class AndonLightsStatuses:
@@ -15,8 +16,9 @@ class AndonLightsStatuses:
     ON = 1
     FLASHING = 2
 
-    def get_list_of_options(self):
-        return [self.OFF, self.ON, self.FLASHING]
+    @classmethod
+    def get_list_of_options(the_class):
+        return [the_class.OFF, the_class.ON, the_class.FLASHING]
 
 
 class AndonLightsBuzzerStatuses:
@@ -26,5 +28,6 @@ class AndonLightsBuzzerStatuses:
     FLASH_LOUD = 3
     FLASH_SOFT = 4
 
-    def get_list_of_options(self):
-        return [self.OFF, self.ON_LOUD, self.ON_SOFT, self.FLASH_LOUD, self.FLASH_SOFT]
+    @classmethod
+    def get_list_of_options(the_class):
+        return [the_class.OFF, the_class.ON_LOUD, the_class.ON_SOFT, the_class.FLASH_LOUD, the_class.FLASH_SOFT]
