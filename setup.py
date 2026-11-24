@@ -7,6 +7,7 @@ setuptools.setup(
     name="plantstar-shared",
     # MAJOR_MILESTONE_VERSION.MINOR_MILESTONE_VERSION.MAJOR_VERSION.MINOR_VERSION.HOTFIX_VERSION.SUBVERSION
     # The main version should stay as v2.0.3.0.x until we have passed that in the plantstar_apu/plantstar_dcm projects
+    # Version-bump commit messages must contain 'Bump version number' or publish.yml will skip publishing
     version="2.0.3.0.2.46",
     author="SYSCON International",
     author_email="dev@syscon-intl.com",
